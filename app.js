@@ -28,11 +28,11 @@ app.use( express.json() );
 
 // Enables node to serve up files inside of /public/ folder
 // this includes static files (index.html, images, CSS, etc.)
-app.use( express.static('public') );
+app.use('/PlantFinder', express.static('public') );
 
 // when the user requests a front-end token,
 // fetch one from Trefle and return it
-app.get('/token', (req, res) => {
+app.get('/PlantFinder/token', (req, res) => {
   fetch(userTokenUrl, { method: 'POST' })
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
