@@ -35,6 +35,7 @@ const render = (plantId) => {
   .then( response => response.json() )
   .then( json => {
 
+    console.log(json)
     let details = json.data
     
     // show the common name but only if there is one on record

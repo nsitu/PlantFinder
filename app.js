@@ -27,7 +27,7 @@ app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/search/:terms', (req, res) => {
   let terms = encodeURIComponent( req.params.terms);
-  var url = 'https://trefle.io/api/v1/plants?q='+terms+'&token='+process.env.TREFLE_TOKEN
+  let url = 'https://trefle.io/api/v1/plants?q='+terms+'&token='+process.env.TREFLE_TOKEN
   fetch(url)
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
@@ -36,7 +36,7 @@ app.get('/PlantFinder/search/:terms', (req, res) => {
 
 app.get('/PlantFinder/plant/:id', (req, res) => {
   let plantId = encodeURIComponent( req.params.id);
-  var url = 'https://trefle.io/api/v1/plants/'+plantId+'?token='+process.env.TREFLE_TOKEN
+  let url = 'https://trefle.io/api/v1/plants/'+plantId+'?token='+process.env.TREFLE_TOKEN
   fetch(url)
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
