@@ -15,6 +15,13 @@ It also uses "materialize" css for styling.
 <script type="text/javascript">
 
 
+// when the form is submitted, run the search
+let formSubmit = (e) => {
+   event.preventDefault();
+   let terms = document.getElementById("search").value;
+   search(terms);
+}
+
 // runs a search for the given terms
 // and trigger a rendering for each one
 const search = (terms) => {
@@ -35,36 +42,34 @@ const render = (plantId) => {
   .then( response => response.json() )
   .then( json => {
 
-    console.log(json)
-    let details = json.data
-    console.log(details)
+    console.log(json);
     
     // show the common name but only if there is one on record
-    let theName = (details.common_name)?
+    let theName = (json.data.common_name)?
       '<div class="card-action">'+
-        '<a href="#">'+details.common_name+'</a>'+
+        '<a href="#">'+json.data.common_name+'</a>'+
       '</div>':'';
 
     // show a default icon if no image is provided.
     let theImg = 'plant.png';
-    if (typeof details.image_url == "string"){
+    if (typeof json.data.image_url == "string"){
       // floristic doesnt have a valid cert so we will use plantnet instead
-      theImg = details.image_url.replace("floristic", "plantnet");
+      theImg = json.data.image_url.replace("floristic", "plantnet");
     } 
 
     // Generate HTML for a plant listing.
     // See https://materializecss.com/cards.html
     document.getElementById("content").innerHTML +=
     '<div class="col s12 m7">'+
-    '<h2 class="header">'+details.scientific_name+'</h2>'+
+    '<h2 class="header">'+json.data.scientific_name+'</h2>'+
     '<div class="card horizontal">'+
       '<div class="card-image">'+
         '<img width="150" src="'+theImg+'">'+
       '</div>'+
       '<div class="card-stacked">'+
         '<div class="card-content">'+
-          '<b>Family</b>: '+ details.main_species.family+'<br/>'+
-          '<b>Genus</b>: '+ details.main_species.genus+'</p>'+
+          '<b>Family</b>: '+ json.data.main_species.family+'<br/>'+
+          '<b>Genus</b>: '+ json.data.main_species.genus+'</p>'+
         '</div>'+
           theName +
       '</div>'+
@@ -75,12 +80,6 @@ const render = (plantId) => {
  .catch(error => console.log('error', error));
 }
 
-// when the form is submitted, run the search
-let formSubmit = (e) => {
-   event.preventDefault();
-   let terms = document.getElementById("search").value;
-   search(terms);
-}
 
 </script>
 
