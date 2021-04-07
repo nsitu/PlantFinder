@@ -17,7 +17,7 @@ It also uses "materialize" css for styling.
 
 // runs a search for the given terms
 // and trigger a rendering for each one
-var search = (terms) => {
+const search = (terms) => {
   document.getElementById("content").innerHTML = '';
   fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
@@ -28,22 +28,23 @@ var search = (terms) => {
 }
 
 // render the plant by fetching additional details
-var render = (plantId) => {
+const render = (plantId) => {
   
   // fetch details about the plant
   fetch( '/PlantFinder/plant/'+plantId )
   .then( response => response.json() )
-  .then( details => {
+  .then( json => {
 
-      console.log(details);
+    let details = json.data
+    
     // show the common name but only if there is one on record
-    var theName = (details.common_name)?
+    let theName = (details.common_name)?
       '<div class="card-action">'+
         '<a href="#">'+details.common_name+'</a>'+
       '</div>':'';
 
     // show a default icon if no image is provided.
-    var theImg = (details.images.length > 0)?
+    let theImg = (details.images.length > 0)?
             details.images[0].url : 'plant.png';
 
     // Generate HTML for a plant listing.
@@ -71,9 +72,9 @@ var render = (plantId) => {
 }
 
 // when the form is submitted, run the search
-var formSubmit = (e) => {
+let formSubmit = (e) => {
    event.preventDefault();
-   var terms = document.getElementById("search").value;
+   let terms = document.getElementById("search").value;
    search(terms);
 }
 
