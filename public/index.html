@@ -46,8 +46,8 @@ const render = (plantId) => {
       '</div>':'';
 
     // show a default icon if no image is provided.
-    let theImg = (details.images.length > 0)?
-            details.images[0].url : 'plant.png';
+    let theImg = (typeof details.image_url == "string")?
+      details.image_url : 'plant.png';
 
     // Generate HTML for a plant listing.
     // See https://materializecss.com/cards.html
