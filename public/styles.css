@@ -13,7 +13,7 @@ section {
   min-height: 80vh;
 }
 
-.card .card-action a{
+#content .card .card-action a{
   color:#7e8667;
 }
 @media screen and (max-width: 992px) {
