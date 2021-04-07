@@ -22,17 +22,16 @@ var search = (terms) => {
   fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
     .then(plants => {
-        for (i in plants){ render(plants[i]); }
+        for (i in plants){ render(plants[i].id); }
      })
     .catch(error => console.log('error', error));
 }
 
 // render the plant by fetching additional details
 var render = (thePlant) => {
-  // assemble link as per trefle documentation
-  var link = 'https://trefle.io/api/plants/'+thePlant['id']+'?token='+token;
+  
   // fetch details about the plant
-  fetch( link )
+  fetch( '/PlantFinder/plant/'+thePlant  )
   .then( response => response.json() )
   .then( details => {
 
