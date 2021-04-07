@@ -35,6 +35,7 @@ var render = (thePlant) => {
   .then( response => response.json() )
   .then( details => {
 
+      console.log(details);
     // show the common name but only if there is one on record
     var theName = (details.common_name)?
       '<div class="card-action">'+
