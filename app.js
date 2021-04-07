@@ -16,8 +16,6 @@ const token = process.env.TREFLE_TOKEN;
 // any available / unused port number will do fine
 const port = 7000;
 
-// ip address (e.g. 10.2.45.x)
-const address = 'http://'+ip.address()+':'+port;
 
 // Trefle requires us to generate a front-end token specific to this address.
 const userTokenUrl = 'https://trefle.io/api/auth/claim?token='+token+'&origin='+address;
@@ -33,11 +31,22 @@ app.use('/PlantFinder', express.static('public') );
 // when the user requests a front-end token,
 // fetch one from Trefle and return it
 app.get('/PlantFinder/token', (req, res) => {
-  fetch(userTokenUrl, { method: 'POST' })
+
+  fetch(
+    'https://trefle.io/api/auth/claim', {
+      method: 'post',
+      body: JSON.stringify({
+        origin: 'https://'+ip.address()+'/PlantFinder',
+        ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+        token: process.env.TREFLE_TOKEN
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
-    .catch(error => console.log('error', error));
-});
+    .catch(error => console.log('error', error))
+
+})
 
 //Go live
 app.listen(port, () => {
