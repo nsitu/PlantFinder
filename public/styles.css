@@ -13,6 +13,10 @@ section {
   min-height: 80vh;
 }
 
+.card .card-action {
+  background-color: #e9f3d0;
+}
+
 #content .card .card-action a{
   color:#7e8667;
 }
