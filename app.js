@@ -26,7 +26,7 @@ app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/search/:terms', (req, res) => {
   let terms = encodeURIComponent( req.params.terms);
-  let url = 'https://trefle.io/api/v1/plants?q='+terms+'&token='+process.env.TREFLE_TOKEN
+  let url = 'https://trefle.io/api/v1/plants/search?q='+terms+'&token='+process.env.TREFLE_TOKEN
   res.send(  {'url':url } )
   fetch(url)
     .then(response => response.json())
