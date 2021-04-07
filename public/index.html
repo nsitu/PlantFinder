@@ -25,7 +25,7 @@ It also uses "materialize" css for styling.
 // and trigger a rendering for each one
 var search = (terms) => {
   document.getElementById("content").innerHTML = '';
-  fetch('https://trefle.io/api/plants?q='+terms+'&token='+token  )
+  fetch('https://trefle.io/api/v1/plants?q='+terms+'&token='+token  )
     .then(response => response.json())
     .then(plants => {
         for (i in plants){ render(plants[i]); }
