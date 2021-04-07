@@ -46,8 +46,11 @@ const render = (plantId) => {
       '</div>':'';
 
     // show a default icon if no image is provided.
-    let theImg = (typeof details.image_url == "string")?
-      details.image_url : 'plant.png';
+    let theImg = 'plant.png';
+    if (typeof details.image_url == "string"){
+      // floristic doesnt have a valid cert so we will use plantnet instead
+      theImg = details.image_url.replace("floristic", "plantnet");
+    } 
 
     // Generate HTML for a plant listing.
     // See https://materializecss.com/cards.html
