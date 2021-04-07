@@ -22,6 +22,7 @@ var search = (terms) => {
   fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
     .then(plants => {
+      console.log(plants)
         for (i in plants){ render(plants[i]); }
      })
     .catch(error => console.log('error', error));
