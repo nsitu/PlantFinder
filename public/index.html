@@ -14,18 +14,12 @@ It also uses "materialize" css for styling.
 <link rel="stylesheet" href="styles.css">
 <script type="text/javascript">
 
-  // get node to fetch us a fresh token
-  var token;
-  fetch("/PlantFinder/token")
-    .then(response => response.json())
-    .then(json => { token = json['token']; return token; })
-    .catch(error => console.log('error', error));
 
 // runs a search for the given terms
 // and trigger a rendering for each one
 var search = (terms) => {
   document.getElementById("content").innerHTML = '';
-  fetch('https://trefle.io/api/v1/plants?q='+terms+'&token='+token  )
+  fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
     .then(plants => {
         for (i in plants){ render(plants[i]); }
@@ -34,9 +28,9 @@ var search = (terms) => {
 }
 
 // render the plant by fetching additional details
-var render = (cactus) => {
+var render = (thePlant) => {
   // assemble link as per trefle documentation
-  var link = 'https://trefle.io/api/plants/'+cactus['id']+'?token='+token;
+  var link = 'https://trefle.io/api/plants/'+thePlant['id']+'?token='+token;
   // fetch details about the plant
   fetch( link )
   .then( response => response.json() )

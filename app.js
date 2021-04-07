@@ -24,25 +24,26 @@ app.use( express.json() );
 // this includes static files (index.html, images, CSS, etc.)
 app.use('/PlantFinder', express.static('public') );
 
-// when the user requests a front-end token,
-// fetch one from Trefle and return it
-app.get('/PlantFinder/token', (req, res) => {
 
-  fetch(
-    'https://trefle.io/api/auth/claim', {
-      method: 'post',
-      body: JSON.stringify({
-        origin: 'https://'+ip.address()+'/PlantFinder',
-        ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-        token: process.env.TREFLE_TOKEN
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    })
+app.get('/PlantFinder/search/:terms', (req, res) => {
+  let terms = encodeURIComponent( req.params.terms);
+  var url = 'https://trefle.io/api/v1/plants?q='+terms+'&token='+process.env.TREFLE_TOKEN
+  fetch(url)
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
-    .catch(error => console.log('error', error))
+    .catch(error => console.log('error', error));
+});
 
-})
+app.get('/PlantFinder/plant/:id', (req, res) => {
+  let plantId = encodeURIComponent( req.params.id);
+  var url = 'https://trefle.io/api/v1/plants/'+plantId+'&token='+process.env.TREFLE_TOKEN
+  fetch(url)
+    .then(response => response.json())
+    .then(result =>  res.send(  result ) )
+    .catch(error => console.log('error', error));
+});
+
+
 
 //Go live
 app.listen(port, () => {
