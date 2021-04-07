@@ -16,10 +16,6 @@ const token = process.env.TREFLE_TOKEN;
 // any available / unused port number will do fine
 const port = 7000;
 
-
-// Trefle requires us to generate a front-end token specific to this address.
-const userTokenUrl = 'https://trefle.io/api/auth/claim?token='+token+'&origin='+address;
-
 // Express Setup
 const app	= express();
 app.use( express.json() );
