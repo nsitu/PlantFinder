@@ -22,17 +22,16 @@ var search = (terms) => {
   fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
     .then(plants => {
-      console.log(plants)
-        for (i in plants){ render(plants[i]); }
+        for (i in plants.data){ render(plants.data[i].id); }
      })
     .catch(error => console.log('error', error));
 }
 
 // render the plant by fetching additional details
-var render = (thePlant) => {
-  console.log(thePlant)
+var render = (plantId) => {
+  
   // fetch details about the plant
-  fetch( '/PlantFinder/plant/'+thePlant['id'] )
+  fetch( '/PlantFinder/plant/'+plantId )
   .then( response => response.json() )
   .then( details => {
 
