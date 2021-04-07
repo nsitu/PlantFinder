@@ -15,7 +15,7 @@ It also uses "materialize" css for styling.
 
   // get node to fetch us a fresh token
   var token;
-  fetch("/token")
+  fetch("/PlantFinder/token")
     .then(response => response.json())
     .then(json => { token = json['token']; return token; })
     .catch(error => console.log('error', error));
