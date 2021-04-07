@@ -1,0 +1,7 @@
+section {
+  width: 50%; margin: 10px auto;
+}
+
+@media screen and (max-width: 992px) {
+  section {  width: 90%; }
+}

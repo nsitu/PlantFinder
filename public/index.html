@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- 
+This is the front end of a plant finder app.
+It allows you to search for plants and generate a formatted list
+It uses the trefle API, available at https://trefle.io/
+It also uses "materialize" css for styling.
+-->
+
+<title>Find Plants</title>
+<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+
+  // get node to fetch us a fresh token
+  var token;
+  fetch("/token")
+    .then(response => response.json())
+    .then(json => { token = json['token']; return token; })
+    .catch(error => console.log('error', error));
+
+// runs a search for the given terms
+// and trigger a rendering for each one
+var search = (terms) => {
+  document.getElementById("content").innerHTML = '';
+  fetch('https://trefle.io/api/plants?q='+terms+'&token='+token  )
+    .then(response => response.json())
+    .then(plants => {
+        for (i in plants){ render(plants[i]); }
+     })
+    .catch(error => console.log('error', error));
+}
+
+// render the plant by fetching additional details
+var render = (cactus) => {
+  // assemble link as per trefle documentation
+  var link = 'https://trefle.io/api/plants/'+cactus['id']+'?token='+token;
+  // fetch details about the plant
+  fetch( link )
+  .then( response => response.json() )
+  .then( details => {
+
+    // show the common name but only if there is one on record
+    var theName = (details.common_name)?
+      '<div class="card-action">'+
+        '<a href="#">'+details.common_name+'</a>'+
+      '</div>':'';
+
+    // show a default icon if no image is provided.
+    var theImg = (details.images.length > 0)?
+            details.images[0].url : 'plant.png';
+
+    // Generate HTML for a plant listing.
+    // See https://materializecss.com/cards.html
+    document.getElementById("content").innerHTML +=
+    '<div class="col s12 m7">'+
+    '<h2 class="header">'+details.scientific_name+'</h2>'+
+    '<div class="card horizontal">'+
+      '<div class="card-image">'+
+        '<img width="150" src="'+theImg+'">'+
+      '</div>'+
+      '<div class="card-stacked">'+
+        '<div class="card-content">'+
+          '<p><b>Division</b>: '+ details.division.name +'<br/>'+
+          '<b>Family</b>: '+ details.family.name+'<br/>'+
+          '<b>Genus</b>: '+ details.genus.name+'</p>'+
+        '</div>'+
+          theName +
+      '</div>'+
+    '</div>'+
+  '</div>';
+
+  })
+ .catch(error => console.log('error', error));
+}
+
+// when the form is submitted, run the search
+var formSubmit = (e) => {
+   event.preventDefault();
+   var terms = document.getElementById("search").value;
+   search(terms);
+}
+
+</script>
+
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Compiled and minified CSS -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+<body>
+
+  <!-- Navigation bar to hold search form-->
+  <nav>
+   <div class="nav-wrapper">
+     <form onsubmit="formSubmit(this)">
+       <div class="input-field">
+         <input placeholder="Find a Plant"  id="search" type="search" required>
+         <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+         <i class="material-icons">close</i>
+       </div>
+     </form>
+   </div>
+ </nav>
+
+  <section id="content">
+      <!--search results will be added here dynamically -->
+  </section>
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
