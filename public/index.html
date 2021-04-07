@@ -37,7 +37,10 @@ const search = (terms) => {
   fetch('/PlantFinder/search/'+terms  )
     .then(response => response.json())
     .then(plants => {
-        for (i in plants.data){ render(plants.data[i].id); }
+        console.log(plants)
+        for (i in plants.data){ 
+          render(plants.data[i].id); 
+        }
      })
     .catch(error => console.log('error', error));
 }
