@@ -17,6 +17,7 @@ section {
 
 .card-image{
   background-image: url('plant.png');
+  background-size:contain;
   background-repeat: no-repeat;
   min-width: 200px;
   min-height: 200px;
