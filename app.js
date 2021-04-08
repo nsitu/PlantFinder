@@ -25,10 +25,12 @@ app.use( express.json() );
 app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/token/', (req, res) => {
+  res.send(req);
+  let url= 'http://'.req.headers.host;
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
       body: JSON.stringify({
-        origin: 'http://'.req.headers.host,
+        origin: url,
         token: process.env.TREFLE_TOKEN
       }),
       headers: { 'Content-Type': 'application/json' }
