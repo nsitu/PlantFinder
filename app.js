@@ -25,7 +25,7 @@ app.use( express.json() );
 app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/token/', (req, res) => {
-  res.send(req);
+  res.send(req.headers);
   let url= 'http://'.req.headers.host;
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
