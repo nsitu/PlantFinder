@@ -1,17 +1,12 @@
-// This Node app serves two purposes:
+// This app serves two purposes:
 // 1. Provide front end users with up to date access tokens.
 // 2. Deliver the front end of our app (via /public/ folder)
-// 
 
 // Libraries
 // To install, use "npm install" from the command line
 const express = require ('express');  // web app framework
 const fetch = require('node-fetch');  // library for making requests
 const dotenv = require('dotenv').config()
-
-// Trefle Secret Authentication Token
-// https://trefle.io/reference#section/Authentication
-
 
 // any available / unused port number will do fine
 const port = 7000;
@@ -25,9 +20,8 @@ app.use( express.json() );
 app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/token/', (req, res) => {
-  //res.send({'host':req.headers['x-forwarded-host']});
+  // https://trefle.io/reference#section/Authentication
   let ip = req.headers['x-forwarded-host'];
-  //res.send({'url':'http://'+ip})
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
       body: JSON.stringify({
@@ -40,7 +34,6 @@ app.get('/PlantFinder/token/', (req, res) => {
     .then(result =>  res.send(  result ) )
     .catch(error => console.log('error', error));
 });
-
 
 //Go live
 app.listen(port, () => {

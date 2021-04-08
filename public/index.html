@@ -16,17 +16,21 @@ It also uses "materialize" css for styling.
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <!-- Compiled and minified CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-  
 <link rel="stylesheet" href="styles.css">
 <script type="text/javascript">
 
+// Node.js will generate a client-side token for Trefle.
+// Tokens are domain-specific so they won't work on other sites.
 let token 
-
 fetch('/PlantFinder/token/')
   .then(response => response.json())
-  .then(result =>  { token = result['token']; console.log(  result['token'] ); })
+  .then(result =>  { 
+      token = result['token']; 
+      // once the token is loaded we can unhide the navigation
+      document.getElementById("navigation").style.display = "block";
+   })
   .catch(error => console.log('error', error));
 
 // when the form is submitted, run the search
@@ -39,6 +43,7 @@ let formSubmit = (e) => {
 // runs a search for the given terms
 // and trigger a rendering for each one
 const search = (terms) => {
+  // clear the previous search
   document.getElementById("content").innerHTML = '';
   terms = encodeURIComponent( terms)
   fetch('https://trefle.io/api/v1/plants/search?q='+terms+'&token='+token  )
@@ -60,7 +65,7 @@ const render = (plantId) => {
   .then( response => response.json() )
   .then( json => {
 
-    console.log(json);
+    // console.log(json);
     
     // show the common name but only if there is one on record
     let theName = (json.data.common_name)?
@@ -79,33 +84,28 @@ const render = (plantId) => {
     // See https://materializecss.com/cards.html
     document.getElementById("content").innerHTML +=
     '<div class="col s12 m7">'+
-    '<h2 class="header">'+json.data.scientific_name+'</h2>'+
-    '<div class="card horizontal">'+
-      '<div class="card-image">'+
-        '<img width="150" src="'+theImg+'">'+
-      '</div>'+
-      '<div class="card-stacked">'+
-        '<div class="card-content">'+
-          '<b>Family</b>: '+ json.data.main_species.family+'<br/>'+
-          '<b>Genus</b>: '+ json.data.main_species.genus+'</p>'+
+      '<h2 class="header">'+json.data.scientific_name+'</h2>'+
+      '<div class="card horizontal">'+
+        '<div class="card-image">'+
+          '<img width="150" src="'+theImg+'">'+
         '</div>'+
-          theName +
+        '<div class="card-stacked">'+
+          '<div class="card-content">'+
+            '<b>Family</b>: '+ json.data.main_species.family+'<br/>'+
+            '<b>Genus</b>: '+ json.data.main_species.genus+'</p>'+
+          '</div>'+
+            theName +
+        '</div>'+
       '</div>'+
-    '</div>'+
-  '</div>';
-
+    '</div>';
   })
  .catch(error => console.log('error', error));
 }
-
-
 </script>
-
 </head>
 <body>
-
   <!-- Navigation bar to hold search form-->
-  <nav>
+  <nav id="navigation">
    <div class="nav-wrapper">
      <form onsubmit="formSubmit(this)">
        <div class="input-field">
