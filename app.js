@@ -1,18 +1,17 @@
 // This Node app serves two purposes:
 // 1. Provide front end users with up to date access tokens.
 // 2. Deliver the front end of our app (via /public/ folder)
-//
+// 
 
 // Libraries
 // To install, use "npm install" from the command line
 const express = require ('express');  // web app framework
 const fetch = require('node-fetch');  // library for making requests
-const ip = require("ip");             // ip address tools for node
 const dotenv = require('dotenv').config()
 
 // Trefle Secret Authentication Token
 // https://trefle.io/reference#section/Authentication
-const token = process.env.TREFLE_TOKEN;
+
 
 // any available / unused port number will do fine
 const port = 7000;
@@ -25,24 +24,19 @@ app.use( express.json() );
 // this includes static files (index.html, images, CSS, etc.)
 app.use('/PlantFinder', express.static('public') );
 
-app.get('/PlantFinder/search/:terms', (req, res) => {
-  let terms = encodeURIComponent( req.params.terms);
-  let url = 'https://trefle.io/api/v1/plants/search?q='+terms+'&token='+process.env.TREFLE_TOKEN
-  fetch(url)
+app.get('/PlantFinder/token/', (req, res) => {
+  fetch( 'https://trefle.io/api/auth/claim', {
+      method: 'post',
+      body: JSON.stringify({
+        origin: 'http://'.req.headers.host,
+        token: process.env.TREFLE_TOKEN
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
     .then(response => response.json())
     .then(result =>  res.send(  result ) )
     .catch(error => console.log('error', error));
 });
-
-app.get('/PlantFinder/plant/:id', (req, res) => {
-  let plantId = encodeURIComponent( req.params.id);
-  let url = 'https://trefle.io/api/v1/plants/'+plantId+'?token='+process.env.TREFLE_TOKEN
-  fetch(url)
-    .then(response => response.json())
-    .then(result =>  res.send(  result ) )
-    .catch(error => console.log('error', error));
-});
-
 
 
 //Go live

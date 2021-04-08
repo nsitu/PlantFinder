@@ -22,6 +22,12 @@ It also uses "materialize" css for styling.
 <link rel="stylesheet" href="styles.css">
 <script type="text/javascript">
 
+let token 
+
+fetch('/PlantFinder/token/')
+  .then(response => response.json())
+  .then(result =>  { token = result; console.log(  result ); })
+  .catch(error => console.log('error', error));
 
 // when the form is submitted, run the search
 let formSubmit = (e) => {
@@ -34,7 +40,8 @@ let formSubmit = (e) => {
 // and trigger a rendering for each one
 const search = (terms) => {
   document.getElementById("content").innerHTML = '';
-  fetch('/PlantFinder/search/'+terms  )
+  terms = encodeURIComponent( terms)
+  fetch('https://trefle.io/api/v1/plants/search?q='+terms+'&token='+token  )
     .then(response => response.json())
     .then(plants => {
         console.log(plants)
@@ -49,7 +56,7 @@ const search = (terms) => {
 const render = (plantId) => {
   
   // fetch details about the plant
-  fetch( '/PlantFinder/plant/'+plantId )
+  fetch(  'https://trefle.io/api/v1/plants/'+plantId+'?token='+token )
   .then( response => response.json() )
   .then( json => {
 
