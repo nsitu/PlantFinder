@@ -10,16 +10,13 @@ fetch('/PlantFinder/token/')
    })
   .catch(error => console.log('error', error));
 
-const searchForm = document.getElementById('searchForm');
-searchForm.addEventListener('submit', search);
 
-// when the form is submitted, run the search
-// runs a search for the given terms
+// run a search for the entered terms
 // and trigger a rendering for each one
 const search = (event) => {
-    event.preventDefault();
+   // prevent the form from reloading the page 
+   event.preventDefault(); 
   // clear the previous search
-  
   document.getElementById("content").innerHTML = '';
   let terms = document.getElementById("search").value;
   terms = encodeURIComponent( terms)
@@ -33,6 +30,11 @@ const search = (event) => {
      })
     .catch(error => console.log('error', error));
 }
+
+// attach the search function to the form submission
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', search);
+
 
 // render the plant by fetching additional details
 const render = (thePlant) => {
