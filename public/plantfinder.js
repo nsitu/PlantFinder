@@ -11,8 +11,8 @@ fetch('/PlantFinder/token/')
   .catch(error => console.log('error', error));
 
 // when the form is submitted, run the search
-const formSubmit = (e) => {
-   e.preventDefault();
+const formSubmit = (event) => {
+   event.preventDefault();
    let terms = document.getElementById("search").value;
    search(terms);
 }
