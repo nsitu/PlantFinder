@@ -4,6 +4,7 @@ body{
 }
 nav{
   background-color: #7e8667;
+  display: none; /* hidden until the token is ready */
 }
 section {
   background-image: url('plant.png');
