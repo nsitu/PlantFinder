@@ -25,3 +25,9 @@ section {
 @media screen and (max-width: 992px) {
   section {  width: 90%; }
 }
+
+
+footer{
+  text-align: center;
+  padding: 20px;
+}
