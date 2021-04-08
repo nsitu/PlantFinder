@@ -26,7 +26,7 @@ let token
 
 fetch('/PlantFinder/token/')
   .then(response => response.json())
-  .then(result =>  { token = result; console.log(  result ); })
+  .then(result =>  { token = result['token']; console.log(  result['token'] ); })
   .catch(error => console.log('error', error));
 
 // when the form is submitted, run the search
