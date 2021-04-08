@@ -10,18 +10,18 @@ fetch('/PlantFinder/token/')
    })
   .catch(error => console.log('error', error));
 
-// when the form is submitted, run the search
-const findPlant = (e) => {
-   let terms = document.getElementById("search").value;
-   search(terms);
-   e.preventDefault();
-}
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', search);
 
+// when the form is submitted, run the search
 // runs a search for the given terms
 // and trigger a rendering for each one
-const search = (terms) => {
+const search = (event) => {
+    event.preventDefault();
   // clear the previous search
+  
   document.getElementById("content").innerHTML = '';
+  let terms = document.getElementById("search").value;
   terms = encodeURIComponent( terms)
   fetch('https://trefle.io/api/v1/plants/search?q='+terms+'&token='+token  )
     .then(response => response.json())
