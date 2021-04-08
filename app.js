@@ -1,12 +1,7 @@
-// This app serves two purposes:
-// 1. Provide front end users with up to date access tokens.
-// 2. Deliver the front end of our app (via /public/ folder)
-
 // Libraries
-// To install, use "npm install" from the command line
 const express = require ('express');  // web app framework
 const fetch = require('node-fetch');  // library for making requests
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config()  // makes it easy to work with secret keys stored in  .env
 
 // any available / unused port number will do fine
 const port = 7000;
