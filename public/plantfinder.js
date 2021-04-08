@@ -14,7 +14,7 @@ fetch('/PlantFinder/token/')
 const formSubmit = (e) => {
    let terms = document.getElementById("search").value;
    search(terms);
-   e.preventDefault();
+   event.preventDefault();
 }
 
 // runs a search for the given terms
