@@ -31,7 +31,7 @@ app.get('/PlantFinder/token/', (req, res) => {
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
       body: JSON.stringify({
-        origin: 'http://'+ip,
+        origin: 'https://'+ip,
         token: process.env.TREFLE_TOKEN
       }),
       headers: { 'Content-Type': 'application/json' }
