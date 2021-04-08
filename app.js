@@ -27,6 +27,7 @@ app.use('/PlantFinder', express.static('public') );
 app.get('/PlantFinder/token/', (req, res) => {
   //res.send({'host':req.headers['x-forwarded-host']});
   let url= 'http://'.req.headers['x-forwarded-host'];
+  res.send({'url':url})
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
       body: JSON.stringify({
