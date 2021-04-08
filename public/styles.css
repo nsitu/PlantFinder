@@ -15,6 +15,12 @@ section {
   min-height: 80vh;
 }
 
+.card-image{
+  background-image: url('plant.png');
+  background-repeat: no-repeat;
+  min-width: 200px;
+  min-height: 200px;
+}
 .card .card-action {
   background-color: #e9f3d0;
 }
