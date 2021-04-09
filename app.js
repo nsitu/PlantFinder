@@ -15,7 +15,7 @@ app.use( express.json() );
 app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/token/', (req, res) => {
-  // https://trefle.io/reference#section/Authentication
+  // https://docs.trefle.io/docs/advanced/client-side-apps
   let ip = req.headers['x-forwarded-host'];
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
