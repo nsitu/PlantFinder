@@ -16,7 +16,13 @@ app.use('/PlantFinder', express.static('public') );
 
 app.get('/PlantFinder/token/', (req, res) => {
   // https://docs.trefle.io/docs/advanced/client-side-apps
+  
+  // NOTE: there are a couple of ways to get the correct host depending on the environment.
+  // i.e. if 'x-forwarded-host' doesn't work for you, try 'host' instead: 
+  
+  // let ip = req.headers['host'];
   let ip = req.headers['x-forwarded-host'];
+  
   fetch( 'https://trefle.io/api/auth/claim', {
       method: 'post',
       body: JSON.stringify({
